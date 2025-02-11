@@ -12,9 +12,14 @@ public class DefaultContext : DbContext
     //  add-migration -name versao_001 -StartupProject 'Ambev.DeveloperEvaluation.ORM'
     //  update-database -verbose -StartupProject 'Ambev.DeveloperEvaluation.ORM'
 
+    public DbSet<Product> Products { get; set; }
     public DbSet<User> Users { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
+    {
+    }
+
+    public DefaultContext() : base()
     {
     }
 
@@ -23,7 +28,18 @@ public class DefaultContext : DbContext
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
     }
+
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        //TODO: apenas para testes, remover depois
+        var connectionString = @"Server=localhost;Port=5432;User id=developer;Password=ev@luAt10n;Database=developer_evaluation";
+        optionsBuilder.UseNpgsql(connectionString);
+
+        base.OnConfiguring(optionsBuilder);
+    }
 }
+
+/*
 public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
 {
     public DefaultContext CreateDbContext(string[] args)
@@ -50,3 +66,4 @@ public class YourDbContextFactory : IDesignTimeDbContextFactory<DefaultContext>
         return new DefaultContext(builder.Options);
     }
 }
+*/
