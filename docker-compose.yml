@@ -30,6 +30,18 @@ services:
       - "5432:5432"
     restart: always
 
+  ambev.developerevaluation.database.pgadmin:
+    container_name: ambev_developer_evaluation_database_pgadmin
+    image: dpage/pgadmin4
+
+    environment:
+      PGADMIN_DEFAULT_EMAIL: lesantana@lesantana.com.br
+      PGADMIN_DEFAULT_PASSWORD: lesantana
+    ports:
+     - "8888:80"
+    restart: always
+
+
   ambev.developerevaluation.nosql:
     container_name: ambev_developer_evaluation_nosql 
     image: mongo:8.0    
