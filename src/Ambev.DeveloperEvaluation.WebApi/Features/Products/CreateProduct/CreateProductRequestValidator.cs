@@ -6,7 +6,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products.CreateProduct
     /// <summary>
     /// Validator for CreateUserRequest that defines validation rules for user creation.
     /// </summary>
-    public class CreateProductRequestValidator : AbstractValidator<CreateProductRequest>
+    public class CreateProductRequestValidator : AbstractValidator<ProductRequest>
     {
         /// <summary>
         /// Initializes a new instance of the CreateProductRequestValidator with defined validation rules.

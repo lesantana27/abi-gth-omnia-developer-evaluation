@@ -14,7 +14,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
     /// <summary>
     /// Comando para criação de um produto
     /// </summary>
-    public class CreateProductCommand : IRequest<CreateProductResult>
+    public class CreateProductCommand : IRequest<ProductResult>
     {
         /// <summary>
         /// Título (nome) do produto
