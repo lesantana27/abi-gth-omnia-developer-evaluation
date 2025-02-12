@@ -54,6 +54,16 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         }
 
         /// <summary>
+        /// Retrieves all products
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of products if found, null otherwise</returns>        
+        public async Task<List<Product>?> GetAllAsync(CancellationToken cancellationToken = default)
+        {
+            return await _context.Products.Select(a => a).ToListAsync();
+        }
+
+        /// <summary>
         /// Retrieves all categories
         /// </summary>
         /// <param name="cancellationToken">Cancellation token</param>
@@ -84,6 +94,18 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         public async Task<Product?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
         {
             return await _context.Products.FirstOrDefaultAsync(a => a.Id == id, cancellationToken);
+        }
+
+        public async Task<Product?> UpdateAsync(Product product, CancellationToken cancellationToken = default)
+        {
+            var productExists = await _context.Products.AsNoTracking().FirstOrDefaultAsync(a => a.Id == product.Id, cancellationToken);
+            if (productExists == null)
+                return null;
+
+            _context.Products.Update(product);
+            await _context.SaveChangesAsync(cancellationToken);
+
+            return product;
         }
     }
 }

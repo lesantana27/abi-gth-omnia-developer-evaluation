@@ -21,6 +21,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         Task<Product> CreateAsync(Product product, CancellationToken cancellationToken = default);
 
         /// <summary>
+        /// Retrieves a list of products
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The list of products if found, null otherwise</returns>
+        Task<List<Product>?> GetAllAsync(CancellationToken cancellationToken = default);
+
+        /// <summary>
         /// Retrieves a product by their unique identifier
         /// </summary>
         /// <param name="id">The unique identifier of the product</param>
@@ -50,5 +57,13 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories
         /// <param name="cancellationToken">Cancellation token</param>
         /// <returns>True if the product was deleted, false if not found</returns>
         Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Update a product from the repository
+        /// </summary>
+        /// <param name="id">The unique identifier of the product</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>The product updated if found, null otherwise</returns>
+        Task<Product?> UpdateAsync(Product product, CancellationToken cancellationToken = default);
     }
 }
