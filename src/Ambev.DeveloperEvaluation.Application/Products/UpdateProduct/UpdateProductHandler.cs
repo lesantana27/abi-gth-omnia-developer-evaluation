@@ -30,13 +30,11 @@ namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct
         /// <returns>The updated product details</returns>
         public async Task<ProductResult> Handle(UpdateProductCommand updateProductCommand, CancellationToken cancellationToken)
         {
-            var validator = new UpdateProductCommandValidator();
-            var validationResult = await validator.ValidateAsync(updateProductCommand, cancellationToken);
-
+            var product = _mapper.Map<Product>(updateProductCommand);
+            
+            var validationResult = product.Validate();
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
-
-            var product = _mapper.Map<Product>(updateProductCommand);
 
             var updatedproduct = await _productRepository.UpdateAsync(product, cancellationToken);
             var result = _mapper.Map<ProductResult>(updatedproduct);

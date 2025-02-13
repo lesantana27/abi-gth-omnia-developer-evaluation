@@ -1,5 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Common.Validation;
 using Ambev.DeveloperEvaluation.Domain.Common;
+using Ambev.DeveloperEvaluation.Domain.Validation;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -59,5 +61,11 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         [JsonIgnore]
         public int RatingCount { get => Rating.Count; set => Rating.Count = value; }
 
+
+        public FluentValidation.Results.ValidationResult Validate()
+        {
+            var validator = new ProductValidator();
+           return validator.Validate(this);
+        }
     }
 }
