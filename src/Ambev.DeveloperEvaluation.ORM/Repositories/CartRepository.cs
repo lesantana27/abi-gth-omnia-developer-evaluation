@@ -41,7 +41,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
         public async Task<List<Cart>?> GetAllAsync(CancellationToken cancellationToken = default)
         {
-            return await _context.Carts.Select(a => a).ToListAsync();
+            return await _context.Carts.Select(a => a).Include(a=>a.CartItemList).ToListAsync();
         }
 
         public async Task<Cart?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
