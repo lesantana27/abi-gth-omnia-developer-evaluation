@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
             builder.HasKey(a => a.Id);
             builder.Property(a => a.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
             builder.Property(a => a.SaleNumber);
-            builder.Property(a => a.Date);
+            builder.Property(a => a.Date).HasColumnType("timestamp without time zone");
             builder.Property(a => a.UserId);
             builder.Property(a => a.TotalAmount);
             builder.Property(a => a.BranchName).HasMaxLength(50);

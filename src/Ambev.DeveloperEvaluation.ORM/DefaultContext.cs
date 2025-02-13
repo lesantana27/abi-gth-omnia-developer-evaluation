@@ -26,6 +26,7 @@ public class DefaultContext : DbContext
 
     public DefaultContext() : base()
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
