@@ -30,13 +30,11 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
         /// <returns>The created product details</returns>
         public async Task<ProductResult> Handle(CreateProductCommand createProductCommand, CancellationToken cancellationToken)
         {
-            var validator = new CreateProductCommandValidator();
-            var validationResult = await validator.ValidateAsync(createProductCommand, cancellationToken);
+            var product = _mapper.Map<Product>(createProductCommand);
 
+            var validationResult = product.Validate();
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
-
-            var product = _mapper.Map<Product>(createProductCommand);
 
             var createdProduct = await _productRepository.CreateAsync(product, cancellationToken);
             var result = _mapper.Map<ProductResult>(createdProduct);

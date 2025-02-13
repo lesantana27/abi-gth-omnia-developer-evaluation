@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
@@ -46,15 +47,26 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
         /// </summary>
         public Rating Rating { get; set; } = new Rating();
 
-        public ValidationResultDetail Validate()
-        {
-            var validator = new CreateProductCommandValidator();
-            var result = validator.Validate(this);
-            return new ValidationResultDetail
-            {
-                IsValid = result.IsValid,
-                Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
-            };
-        }
+        /// <summary>
+        /// Somente para mapear a Nota da avaliação
+        /// </summary>
+        public decimal RatingRate { get => Rating.Rate; set => Rating.Rate = value; }
+
+        /// <summary>
+        /// Somente para mapear a Quantidade de avaliações
+        /// </summary>
+        public int RatingCount { get => Rating.Count; set => Rating.Count = value; }
+
+
+        //public ValidationResultDetail Validate()
+        //{
+        //    var validator = new CreateProductCommandValidator();
+        //    var result = validator.Validate(this);
+        //    return new ValidationResultDetail
+        //    {
+        //        IsValid = result.IsValid,
+        //        Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+        //    };
+        //}
     }
 }
