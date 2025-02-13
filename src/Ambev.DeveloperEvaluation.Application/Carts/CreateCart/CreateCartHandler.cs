@@ -1,5 +1,7 @@
-﻿using Ambev.DeveloperEvaluation.Domain.Entities;
+﻿using Ambev.DeveloperEvaluation.Common.Security;
+using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using Ambev.DeveloperEvaluation.Domain.Specifications;
 using AutoMapper;
 using FluentValidation;
 using MediatR;
@@ -13,11 +15,6 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
         private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// Initializes a new instance of CreateCartHandler
-        /// </summary>
-        /// <param name="cartRepository">The cart repository</param>
-        /// <param name="mapper">The AutoMapper instance</param>
         public CreateCartHandler(ICartRepository cartRepository, IProductRepository productRepository, IUserRepository userRepository, IMapper mapper)
         {
             _cartRepository = cartRepository;
@@ -26,12 +23,6 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Handles the CreateCartCommand request
-        /// </summary>
-        /// <param name="createCartCommand">The CreateCart command</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The created cart details</returns>
         public async Task<CartResult> Handle(CreateCartCommand createCartCommand, CancellationToken cancellationToken)
         {
             var cart = _mapper.Map<Cart>(createCartCommand);
@@ -40,19 +31,20 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
             if (!validationResult.IsValid)
                 throw new ValidationException(validationResult.Errors);
 
-            //var user = await _userRepository.GetByIdAsync(cart.UserId, cancellationToken);
-            //if (user == null)
-            //    throw new ValidationException("O usuário não existe.");
-
-            for (int i = 0; i < cart.CartItemList.Count; i++)
+            foreach (var cartItem in cart.CartItemList)
             {
-                var productId = cart.CartItemList[i].ProductId;
-                var product = await _productRepository.GetByIdAsync(productId, cancellationToken);
+                var product = await _productRepository.GetByIdAsync(cartItem.ProductId, cancellationToken);
                 if (product == null)
-                    throw new ValidationException($"O produto de código [{productId}] não existe.");
+                    throw new KeyNotFoundException($"O produto de código [{cartItem.ProductId}] não existe.");
 
-                cart.CartItemList[i].Title = product.Title;
-                cart.CartItemList[i].Price = product.Price;
+                var cartItemQuantityLimitSpecification = new CartItemQuantityLimitSpecification();
+                if (!cartItemQuantityLimitSpecification.IsSatisfiedBy(cartItem))
+                {
+                    throw new Exception("A quantidade do produto deve ser entre 1 até 20.");
+                }
+
+                cartItem.Title = product.Title;
+                cartItem.Price = product.Price;
             }
 
             var createdCart = await _cartRepository.CreateAsync(cart, cancellationToken);

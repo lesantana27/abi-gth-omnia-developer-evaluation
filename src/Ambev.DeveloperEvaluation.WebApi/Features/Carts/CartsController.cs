@@ -52,13 +52,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
                 return BadRequest(validationResult.Errors);
 
             var createCartCommand = _mapper.Map<Application.Carts.CreateCart.CreateCartCommand>(createCartRequest);
-            var response = await _mediator.Send(createCartCommand, cancellationToken);
+            var result = await _mediator.Send(createCartCommand, cancellationToken);
 
             return Created(string.Empty, new ApiResponseWithData<CartResponse>
             {
                 Success = true,
                 Message = "Carrinho de compras criado com sucesso.",
-                Data = _mapper.Map<CartResponse>(response)
+                Data = _mapper.Map<CartResponse>(result)
             });
         }
 
@@ -75,118 +75,117 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetCartList(CancellationToken cancellationToken)
         {
-            //var getCartListRequest = new GetCartListRequest();
-            //var command = _mapper.Map<Application.Carts.GetCart.GetCartListCommand>(getCartListRequest);
-            //var response = await _mediator.Send(command, cancellationToken);
+            var getCartListRequest = new GetCartListRequest();
+            var command = _mapper.Map<Application.Carts.GetCart.GetCartListCommand>(getCartListRequest);
+            var result = await _mediator.Send(command, cancellationToken);
 
-            //return Ok(new ApiResponseWithData<GetCartListResponse>
-            //{
-            //    Success = true,
-            //    Message = "List of Carts retrieved successfully",
-            //    Data = _mapper.Map<GetCartListResponse>(response)
-            //});
+            return Ok(new ApiResponseWithData<GetCartListResponse>
+            {
+                Success = true,
+                Message = "Lista de carrinho de compras carregada com sucesso.",
+                Data = _mapper.Map<GetCartListResponse>(result)
+            });
 
-            return Ok();
         }
 
 
 
 
-        /// <summary>
-        /// Selecionar um carrino de compras pelo identificador
-        /// </summary>
-        [HttpGet("{id}")]
-        [ProducesResponseType(typeof(ApiResponseWithData<CartResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> GetCartById([FromRoute] Guid id, CancellationToken cancellationToken)
-        {
-            //var request = new GetCartByIdRequest { Id = id };
-            //var validator = new GetCartByIdRequestValidator();
-            //var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        ///// <summary>
+        ///// Selecionar um carrino de compras pelo identificador
+        ///// </summary>
+        //[HttpGet("{id}")]
+        //[ProducesResponseType(typeof(ApiResponseWithData<CartResponse>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> GetCartById([FromRoute] Guid id, CancellationToken cancellationToken)
+        //{
+        //    //var request = new GetCartByIdRequest { Id = id };
+        //    //var validator = new GetCartByIdRequestValidator();
+        //    //var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-            //if (!validationResult.IsValid)
-            //    return BadRequest(validationResult.Errors);
+        //    //if (!validationResult.IsValid)
+        //    //    return BadRequest(validationResult.Errors);
 
-            //var command = _mapper.Map<Application.Carts.GetCart.GetCartByIdCommand>(request.Id);
-            //var response = await _mediator.Send(command, cancellationToken);
+        //    //var command = _mapper.Map<Application.Carts.GetCart.GetCartByIdCommand>(request.Id);
+        //    //var response = await _mediator.Send(command, cancellationToken);
 
-            //return Ok(new ApiResponseWithData<CartResponse>
-            //{
-            //    Success = true,
-            //    Message = "Cart retrieved successfully",
-            //    Data = _mapper.Map<CartResponse>(response)
-            //});
+        //    //return Ok(new ApiResponseWithData<CartResponse>
+        //    //{
+        //    //    Success = true,
+        //    //    Message = "Cart retrieved successfully",
+        //    //    Data = _mapper.Map<CartResponse>(response)
+        //    //});
 
-            return Ok();
-        }
-
-
-
-
-
-        /// <summary>
-        /// Atualizar um carrinho de compras
-        /// </summary>
-        [HttpPut("{id}")]
-        [ProducesResponseType(typeof(ApiResponseWithData<CartResponse>), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> UpdateCart([FromRoute] Guid id, [FromBody] UpdateCartRequest updateCartRequest, CancellationToken cancellationToken)
-        {
-            //var request = new UpdateCartRequest();
-            //request = _mapper.Map<UpdateCartRequest>(cartRequest);
-            //request.Id = id;
-
-            //var validator = new UpdateCartRequestValidator();
-            //var validationResult = await validator.ValidateAsync(request, cancellationToken);
-
-            //if (!validationResult.IsValid)
-            //    return BadRequest(validationResult.Errors);
-
-            //var command = _mapper.Map<Application.Carts.UpdateCart.UpdateCartCommand>(request);
-            //var response = await _mediator.Send(command, cancellationToken);
-
-            //return Ok(new ApiResponseWithData<CartResponse>
-            //{
-            //    Success = true,
-            //    Message = "Cart updated successfully",
-            //    Data = _mapper.Map<CartResponse>(response)
-            //});
-
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
 
 
 
 
-        /// <summary>
-        /// Excluir um carrinho de compras
-        /// </summary>
-        [HttpDelete("{id}")]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<IActionResult> DeleteCart([FromRoute] Guid id, CancellationToken cancellationToken)
-        {
-            //var request = new DeleteCartRequest { Id = id };
-            //var validator = new DeleteCartRequestValidator();
-            //var validationResult = await validator.ValidateAsync(request, cancellationToken);
+        ///// <summary>
+        ///// Atualizar um carrinho de compras
+        ///// </summary>
+        //[HttpPut("{id}")]
+        //[ProducesResponseType(typeof(ApiResponseWithData<CartResponse>), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> UpdateCart([FromRoute] Guid id, [FromBody] UpdateCartRequest updateCartRequest, CancellationToken cancellationToken)
+        //{
+        //    var request = new UpdateCartRequest();
+        //    request = _mapper.Map<UpdateCartRequest>(cartRequest);
+        //    request.Id = id;
 
-            //if (!validationResult.IsValid)
-            //    return BadRequest(validationResult.Errors);
+        //    var validator = new UpdateCartRequestValidator();
+        //    var validationResult = await validator.ValidateAsync(request, cancellationToken);
 
-            //var command = _mapper.Map<Application.Carts.DeleteCart.DeleteCartCommand>(request.Id);
-            //await _mediator.Send(command, cancellationToken);
+        //    if (!validationResult.IsValid)
+        //        return BadRequest(validationResult.Errors);
 
-            //return Ok(new ApiResponse
-            //{
-            //    Success = true,
-            //    Message = "Cart deleted successfully"
-            //});
+        //    var command = _mapper.Map<Application.Carts.UpdateCart.UpdateCartCommand>(request);
+        //    var result = await _mediator.Send(command, cancellationToken);
 
-            return Ok();
-        }
+        //    return Ok(new ApiResponseWithData<CartResponse>
+        //    {
+        //        Success = true,
+        //        Message = "Cart updated successfully",
+        //        Data = _mapper.Map<CartResponse>(result)
+        //    });
+
+
+        //}
+
+
+
+
+
+        ///// <summary>
+        ///// Excluir um carrinho de compras
+        ///// </summary>
+        //[HttpDelete("{id}")]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status200OK)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        //[ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        //public async Task<IActionResult> DeleteCart([FromRoute] Guid id, CancellationToken cancellationToken)
+        //{
+        //    //var request = new DeleteCartRequest { Id = id };
+        //    //var validator = new DeleteCartRequestValidator();
+        //    //var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+        //    //if (!validationResult.IsValid)
+        //    //    return BadRequest(validationResult.Errors);
+
+        //    //var command = _mapper.Map<Application.Carts.DeleteCart.DeleteCartCommand>(request.Id);
+        //    //await _mediator.Send(command, cancellationToken);
+
+        //    //return Ok(new ApiResponse
+        //    //{
+        //    //    Success = true,
+        //    //    Message = "Cart deleted successfully"
+        //    //});
+
+        //    return Ok();
+        //}
     }
 }
