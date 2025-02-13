@@ -50,15 +50,15 @@ namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct
         /// </summary>
         public Rating Rating { get; set; } = new Rating();
 
-        public ValidationResultDetail Validate()
-        {
-            var validator = new UpdateProductCommandValidator();
-            var result = validator.Validate(this);
-            return new ValidationResultDetail
-            {
-                IsValid = result.IsValid,
-                Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
-            };
-        }
+        //public ValidationResultDetail Validate()
+        //{
+        //    var validator = new UpdateProductCommandValidator();
+        //    var result = validator.Validate(this);
+        //    return new ValidationResultDetail
+        //    {
+        //        IsValid = result.IsValid,
+        //        Errors = result.Errors.Select(o => (ValidationErrorDetail)o)
+        //    };
+        //}
     }
 }
