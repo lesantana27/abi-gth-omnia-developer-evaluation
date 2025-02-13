@@ -60,6 +60,8 @@ public class User : BaseEntity, IUser
     /// </summary>
     public DateTime? UpdatedAt { get; set; }
 
+    public List<Cart> CartList { get; set; } = new List<Cart>();
+
     /// <summary>
     /// Gets the unique identifier of the user.
     /// </summary>
@@ -77,6 +79,8 @@ public class User : BaseEntity, IUser
     /// </summary>
     /// <returns>The user's role as a string.</returns>
     string IUser.Role => Role.ToString();
+
+    
 
     /// <summary>
     /// Initializes a new instance of the User class.

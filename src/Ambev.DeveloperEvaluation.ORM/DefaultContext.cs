@@ -12,7 +12,12 @@ public class DefaultContext : DbContext
     //  add-migration -name versao_001 -StartupProject 'Ambev.DeveloperEvaluation.ORM'
     //  update-database -verbose -StartupProject 'Ambev.DeveloperEvaluation.ORM'
 
+    public DbSet<Cart> Carts { get; set; }
+    
+    public DbSet<CartItem> CartItems { get; set; }
+
     public DbSet<Product> Products { get; set; }
+
     public DbSet<User> Users { get; set; }
 
     public DefaultContext(DbContextOptions<DefaultContext> options) : base(options)
@@ -21,6 +26,7 @@ public class DefaultContext : DbContext
 
     public DefaultContext() : base()
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
